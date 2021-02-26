@@ -241,6 +241,7 @@ class CheckModifiedHelper {
     String modname
     String inputTaskName
     String inputArchiveName
+    Object proj
 
     String getCleanFilepath()
     {
@@ -257,21 +258,22 @@ class CheckModifiedHelper {
         this.modname = modname
         this.inputTaskName = taskname
         this.inputArchiveName = archivname
+        this.proj = proj
     }
 
     def filterUnchanged() {
-        def cleanFilename = getCleanFilepath()
-        def moddedFilename = getModdedFilepath()
+        def cleanZipFile = proj.file(getCleanFilepath())
+        def moddedZipFile = proj.file(getModdedFilepath())
 
-        def zipIn = new ZipFile(moddedFilename)
+        def zipIn = new ZipFile(moddedZipFile)
         zipIn.entries().each { moddedFile ->
             def entryName = moddedFile.toString()
 
-            def vanillaJar = new ZipFile(cleanFilename)
+            def vanillaJar = new ZipFile(cleanZipFile)
             def vanillaEntry = vanillaJar.getEntry entryName
 
             if (vanillaEntry != null) {
-                def moddedJar = new ZipFile(moddedFilename)
+                def moddedJar = new ZipFile(moddedZipFile)
                 def moddedEntry = moddedJar.getEntry entryName
 
                 boolean modded = !IOUtils.contentEquals(vanillaJar.getInputStream(vanillaEntry), moddedJar.getInputStream(moddedEntry))
@@ -595,7 +597,7 @@ for (def dist : ['Client', 'Server']) {
 
         dependsOn ':clean:' + inputTaskName, ':' + settings.modname + ':' + inputTaskName
         
-        CheckModifiedHelper check = new CheckModifiedHelper(settings.modname, inputTaskName, inputArchiveName)
+        CheckModifiedHelper check = new CheckModifiedHelper(settings.modname, inputTaskName, inputArchiveName, project)
         doFirst {
             check.filterUnchanged()
         }
