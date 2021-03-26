@@ -45,7 +45,8 @@ From outside Eclipse, the file structure looks a little different. However, you 
 - `modname` the name of your mod.
 - `modversion` the version your mod is on.
 - `mcpconfig` the MCPConfig version you are using.
-- `mappings` the MCP mappings you are using.
+- `mappings_channel` the channel of MCP mappings you are using. This can either be `official` or `snapshot`.
+- `mappings_version` the version you are using for your mappings channel. For official mappings this is the minecraft version. For snapshot use the desired MCP mappings version.
 - `mcversion` the Minecraft version.
 - `pipeline`, either `joined`, `client` or `server` - whether your mod is to be a client-side-only or server-side-only mod, or to be both and share the same codebase.
 - `clientmain` the main class on the client.
