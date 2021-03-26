@@ -8,16 +8,16 @@
 +
  public class CloneCommand
  {
-     private static final SimpleCommandExceptionType OVERLAP_EXCEPTION = new SimpleCommandExceptionType(new TranslationTextComponent("commands.clone.overlap"));
+     private static final SimpleCommandExceptionType ERROR_OVERLAP = new SimpleCommandExceptionType(new TranslationTextComponent("commands.clone.overlap"));
 @@ -108,9 +110,9 @@
          {
-             int i = mutableboundingbox.getXSize() * mutableboundingbox.getYSize() * mutableboundingbox.getZSize();
+             int i = mutableboundingbox.getXSpan() * mutableboundingbox.getYSpan() * mutableboundingbox.getZSpan();
  
 -            if (i > 32768)
 +            if (i > FillLimitCommand.fillLimit)
              {
--                throw CLONE_TOO_BIG_EXCEPTION.create(32768, i);
-+                throw CLONE_TOO_BIG_EXCEPTION.create(FillLimitCommand.fillLimit, i);
+-                throw ERROR_AREA_TOO_LARGE.create(32768, i);
++                throw ERROR_AREA_TOO_LARGE.create(FillLimitCommand.fillLimit, i);
              }
              else
              {

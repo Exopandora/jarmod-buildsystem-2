@@ -8,16 +8,16 @@
 +
  public class FillCommand
  {
-     private static final Dynamic2CommandExceptionType TOO_BIG_EXCEPTION = new Dynamic2CommandExceptionType((p_208897_0_, p_208897_1_) ->
+     private static final Dynamic2CommandExceptionType ERROR_AREA_TOO_LARGE = new Dynamic2CommandExceptionType((p_208897_0_, p_208897_1_) ->
 @@ -70,9 +72,9 @@
      {
-         int i = area.getXSize() * area.getYSize() * area.getZSize();
+         int i = p_198463_1_.getXSpan() * p_198463_1_.getYSpan() * p_198463_1_.getZSpan();
  
 -        if (i > 32768)
 +        if (i > FillLimitCommand.fillLimit)
          {
--            throw TOO_BIG_EXCEPTION.create(32768, i);
-+            throw TOO_BIG_EXCEPTION.create(FillLimitCommand.fillLimit, i);
+-            throw ERROR_AREA_TOO_LARGE.create(32768, i);
++            throw ERROR_AREA_TOO_LARGE.create(FillLimitCommand.fillLimit, i);
          }
          else
          {

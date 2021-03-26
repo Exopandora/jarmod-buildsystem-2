@@ -2,11 +2,11 @@
 +++ b/net/minecraft/client/Minecraft.java
 @@ -543,7 +543,8 @@
  
-     private String getWindowTitle()
+     private String createTitle()
      {
 -        StringBuilder stringbuilder = new StringBuilder("Minecraft");
 +        // example client-side-only modification
 +        StringBuilder stringbuilder = new StringBuilder("ExampleMod");
  
-         if (this.isModdedClient())
+         if (this.isProbablyModded())
          {

@@ -22,13 +22,13 @@ public class FillLimitCommand {
     }
     
     private static int getFillLimit(CommandSource source) {
-        source.sendFeedback(new StringTextComponent("Fill limit: " + fillLimit), false);
+        source.sendSuccess(new StringTextComponent("Fill limit: " + fillLimit), false);
         return fillLimit;
     }
     
     private static int setFillLimit(CommandSource source, int newLimit) {
         fillLimit = newLimit;
-        source.sendFeedback(new StringTextComponent("Fill limit updated to " + newLimit), true);
+        source.sendSuccess(new StringTextComponent("Fill limit updated to " + newLimit), true);
         return 0;
     }
     
