@@ -45,9 +45,10 @@ From outside Eclipse, the file structure looks a little different. However, you 
 - `modname` the name of your mod.
 - `modversion` the version your mod is on.
 - `mcpconfig` the MCPConfig version you are using.
-- `mappings_channel` the channel of mappings you are using. This can either be `official` or `snapshot`.
+- `mappings_channel` the channel of mappings you are using. This can either be `official` or `snapshot`. Note that the official mappings fall under their associated license.
 - `mappings_version` the version you are using for your mappings channel. For official mappings this is the minecraft version. For snapshot use the desired MCP mappings version.
 - `mcversion` the Minecraft version.
+- `spiversion` the forgespi version.
 - `pipeline`, either `joined`, `client` or `server` - whether your mod is to be a client-side-only or server-side-only mod, or to be both and share the same codebase.
 - `clientmain` the main class on the client.
 - `servermain` the main class on the server.
@@ -56,6 +57,3 @@ From outside Eclipse, the file structure looks a little different. However, you 
 - `nopatches` If true, don't apply MCP patches to fix recompile errors.
 - `customconstructors` The custom `constructors.txt` file in the `conf/` folder, to override the one in the MCPConfig distribution, used to deobfuscate even newer Minecraft versions.
 - `fernflower` The custom fernflower package to use to decompile.
-
-## A word of warning
-1.13 modding is still in its infancy, and there are already known bugs that occur in the decompiled code which do not occur in vanilla. If you care about maintaining vanilla behaviour, then whenever making a change which may modify a certain vanilla class, make sure to weigh up the benefit of modifying said class against the risk that there might be a decompile bug in the class. This situation is constantly improving as 1.13 modding matures, but for now you can at least minimize the effect by distributing as few modified classes as possible.
