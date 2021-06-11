@@ -1,12 +1,12 @@
 --- a/net/minecraft/client/Minecraft.java
 +++ b/net/minecraft/client/Minecraft.java
-@@ -543,7 +543,8 @@
+@@ -591,7 +591,8 @@
  
      private String createTitle()
      {
 -        StringBuilder stringbuilder = new StringBuilder("Minecraft");
 +        // example client-side-only modification
-+        StringBuilder stringbuilder = new StringBuilder("ExampleMod");
++        StringBuilder stringbuilder = new StringBuilder("Examplemod");
  
          if (this.isProbablyModded())
          {

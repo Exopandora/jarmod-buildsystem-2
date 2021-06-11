@@ -1,0 +1,23 @@
+--- a/net/minecraft/server/commands/FillCommand.java
++++ b/net/minecraft/server/commands/FillCommand.java
+@@ -26,6 +26,8 @@
+ import net.minecraft.world.level.block.state.pattern.BlockInWorld;
+ import net.minecraft.world.level.levelgen.structure.BoundingBox;
+ 
++import com.example.mod.FillLimitCommand;
++
+ public class FillCommand
+ {
+     private static final int MAX_FILL_AREA = 32768;
+@@ -71,9 +73,9 @@
+     {
+         int i = p_137387_.getXSpan() * p_137387_.getYSpan() * p_137387_.getZSpan();
+ 
+-        if (i > 32768)
++        if (i > FillLimitCommand.fillLimit)
+         {
+-            throw ERROR_AREA_TOO_LARGE.create(32768, i);
++            throw ERROR_AREA_TOO_LARGE.create(FillLimitCommand.fillLimit, i);
+         }
+         else
+         {

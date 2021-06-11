@@ -7,7 +7,7 @@ buildscript {
 		}
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:4.1.+'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:5.0.+'
         classpath 'org.ow2.asm:asm:7.2'
         classpath 'org.ow2.asm:asm-tree:7.2'
         classpath 'com.github.abrarsyed.jastyle:jAstyle:1.3'
@@ -31,6 +31,8 @@ import org.gradle.plugins.ide.eclipse.model.SourceFolder
 // ===== MAIN BUILDSCRIPT ===== //
 
 apply plugin: 'eclipse'
+
+println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
 
 // configuration
 def settings = new JsonSlurper().parseText(file('conf/settings.json').text)
@@ -56,7 +58,7 @@ project(':clean') {
     apply plugin: 'eclipse'
     apply plugin: 'net.minecraftforge.gradle.patcher'
     
-    java.toolchain.languageVersion = JavaLanguageVersion.of(8) // Mojang ships Java 8 to end users, so your mod should target Java 8.
+    java.toolchain.languageVersion = JavaLanguageVersion.of(16) // Mojang ships Java 16 to end users, so your mod should target Java 16.
 
     repositories {
         mavenLocal()
@@ -70,6 +72,11 @@ project(':clean') {
         mcVersion = settings.mcversion
         patchedSrc = file('src/main/java')
         mappings channel: settings.mappings_channel, version: settings.mappings_version
+    }
+    applyPatches {
+        if (settings.nopatches) {
+			patches = null
+		}
     }
     task runclient(type: JavaExec) {
         doFirst {
@@ -89,17 +96,17 @@ project(':' + settings.modname) {
     apply plugin: 'eclipse'
     apply plugin: 'net.minecraftforge.gradle.patcher'
     
-    java.toolchain.languageVersion = JavaLanguageVersion.of(8) // Mojang ships Java 8 to end users, so your mod should target Java 8.
+    java.toolchain.languageVersion = JavaLanguageVersion.of(16) // Mojang ships Java 16 to end users, so your mod should target Java 16.
     
 	group = settings.group
 	
     sourceSets {
         main {
             java {
-                srcDir "$rootDir/src/main/java"
+                srcDirs = ["$rootDir/src/main/java"]
             }
             resources {
-                srcDir "$rootDir/src/main/resources"
+                srcDirs = ["$rootDir/src/main/resources"]
             }
         }
     }
@@ -124,7 +131,9 @@ project(':' + settings.modname) {
         }
     }
     applyPatches {
-        maxFuzzOffset 3
+        if (settings.nopatches) {
+			patches = null
+		}
     }
     dependencies {
         implementation group: 'net.minecraftforge', name: 'forgespi', version: settings.spiversion, transitive: true
@@ -292,8 +301,11 @@ setup.dependsOn ':clean:extractSrg'
 
 // Generic fixMcpConfig task for anything that needs to modify the mcpconfig
 class FixMcpConfigTask extends DefaultTask {
+	@Internal
     List<Closure> configActions = []
+	@Internal
     List<Closure> filterActions = []
+	@Internal
     Map<File, String> additionalDirs = [:]
     void configAction(Closure action) {
         configActions.add(action)
@@ -334,7 +346,7 @@ class FixMcpConfigTask extends DefaultTask {
                 inputs.file proj.downloadConfig.output
                 outputs.file 'build/mcp_config.zip'
             }
-            proj.loadConfig.dependsOn proj.fixMcpConfig
+            proj.setupMCP.dependsOn proj.fixMcpConfig
         }
     }
 }

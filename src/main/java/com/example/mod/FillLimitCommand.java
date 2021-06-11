@@ -1,19 +1,19 @@
 package com.example.mod;
 
-import static net.minecraft.command.Commands.argument;
-import static net.minecraft.command.Commands.literal;
+import static net.minecraft.commands.Commands.argument;
+import static net.minecraft.commands.Commands.literal;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 
-import net.minecraft.command.CommandSource;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.network.chat.TextComponent;
 
 public class FillLimitCommand {
 
     public static int fillLimit = 32768;
     
-    public static void register(CommandDispatcher<CommandSource> dispatcher) {
+    public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(literal("fill")
                 .then(literal("limit")
                         .executes(context -> getFillLimit(context.getSource()))
@@ -21,14 +21,14 @@ public class FillLimitCommand {
                                 .executes(context -> setFillLimit(context.getSource(), IntegerArgumentType.getInteger(context, "newLimit"))))));
     }
     
-    private static int getFillLimit(CommandSource source) {
-        source.sendSuccess(new StringTextComponent("Fill limit: " + fillLimit), false);
+    private static int getFillLimit(CommandSourceStack source) {
+        source.sendSuccess(new TextComponent("Fill limit: " + fillLimit), false);
         return fillLimit;
     }
     
-    private static int setFillLimit(CommandSource source, int newLimit) {
+    private static int setFillLimit(CommandSourceStack source, int newLimit) {
         fillLimit = newLimit;
-        source.sendSuccess(new StringTextComponent("Fill limit updated to " + newLimit), true);
+        source.sendSuccess(new TextComponent("Fill limit updated to " + newLimit), true);
         return 0;
     }
     

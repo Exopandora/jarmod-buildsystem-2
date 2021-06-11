@@ -1,0 +1,23 @@
+--- a/net/minecraft/server/commands/CloneCommands.java
++++ b/net/minecraft/server/commands/CloneCommands.java
+@@ -24,6 +24,8 @@
+ import net.minecraft.world.level.block.state.pattern.BlockInWorld;
+ import net.minecraft.world.level.levelgen.structure.BoundingBox;
+ 
++import com.example.mod.FillLimitCommand;
++
+ public class CloneCommands
+ {
+     private static final int MAX_CLONE_AREA = 32768;
+@@ -109,9 +111,9 @@
+         {
+             int i = boundingbox.getXSpan() * boundingbox.getYSpan() * boundingbox.getZSpan();
+ 
+-            if (i > 32768)
++            if (i > FillLimitCommand.fillLimit)
+             {
+-                throw ERROR_AREA_TOO_LARGE.create(32768, i);
++                throw ERROR_AREA_TOO_LARGE.create(FillLimitCommand.fillLimit, i);
+             }
+             else
+             {
