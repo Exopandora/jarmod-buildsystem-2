@@ -492,10 +492,7 @@ if (settings.reformat) {
 // Fix reobf error due to local variable signatures (with lambdas?). Apply to both clean and modded to keep the classes the same
 for (def projname : [':clean', ':' + settings.modname]) {
 	project(projname) {
-		def reobfArgs = []
-		reobfJar.args.each {reobfArgs << it}
-		reobfArgs << '--kill-lvt'
-		reobfJar.args = reobfArgs.toArray([] as String[])
+		reobfJar.getArgs().addAll('--kill-lvt')
 	}
 }
 
