@@ -83,17 +83,6 @@ project(':clean') {
 			patches = null
 		}
 	}
-	
-	task runclient(type: JavaExec) {
-		doFirst {
-			mkdir 'runclient'
-		}
-		
-		classpath sourceSets.main.runtimeClasspath
-		args = ['--accessToken', '0', '--version', settings.mcversion]
-		main settings.clientmain
-		workingDir 'runclient'
-	}
 }
 
 project(':' + settings.modname) {
